@@ -11,20 +11,29 @@
  */
 class Solution {
 public:
-   
-        string tree2str(TreeNode* root) {
-        if(!root)
+    string solve(TreeNode* &root){
+        //base case
+        if(root==NULL)
             return "";
         
-        string s=to_string(root->val);
+        string str="";
+        str+= to_string(root->val);
+        string left = solve(root->left);
+        string right= solve(root->right);
+        // when right is "" we can / cannot take left
+        if(right==""){
+            if(left!="")
+                str+= "(" + left +  ")";
+        }
         
-        if(root->left || root->right)
-            s+="(" + tree2str(root->left) + ")";
-        
-        if(root->right)
-            s+="(" + tree2str(root->right) + ")";
-        
-        return s;
+        //when right is not "" then we have to take left
+        else{
+            str+= "(" + left + ")" + "(" + right + ")";
+        }
+        return str;
     }
-    
+    string tree2str(TreeNode* root) {
+        
+        return solve(root);
+    }
 };
