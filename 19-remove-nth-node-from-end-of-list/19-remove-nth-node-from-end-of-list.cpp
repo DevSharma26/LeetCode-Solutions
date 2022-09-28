@@ -10,27 +10,17 @@
  */
 class Solution {
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ios_base::sync_with_stdio(0);
-        ListNode* slow = head,*fast = head;
-        int cnt = 0;
-        while(cnt<n-1){
-            cnt++;
-            fast = fast->next;
+    ListNode* removeNthFromEnd(ListNode* head, int n) 
+    {
+        ListNode** p = &head;
+        ListNode*  next = head;
+        while(n-- && next) next=next->next;
+        while(next)
+        {
+           p = &(*p)->next;
+           next=next->next;
         }
-        ListNode* prev = NULL;
-        while(fast->next){
-            prev = slow;
-            slow = slow->next;
-            fast = fast->next;
-        }
-        if(!prev){
-            head = head->next;
-            return head;
-        }
-        else{
-            prev->next = slow->next;
-            return head;
-        }
+        *p = (*p)->next;
+        return head;
     }
 };
